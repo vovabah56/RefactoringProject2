@@ -28,6 +28,6 @@ public class GameIntegrationTest {
 
         String gameOutput = output.toString();
         System.out.println(gameOutput);
-        assertTrue(gameOutput.contains(": go, help, quit"), gameOutput);
+        assertTrue(gameOutput.contains("Available commands: go, help, quit"), gameOutput);
     }
 }

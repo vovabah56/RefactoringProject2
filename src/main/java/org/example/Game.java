@@ -110,7 +110,7 @@ public class Game {
      */
     void printHelp() {
         System.out.println("You are lost. You are alone.");
-        System.out.println("Your command words are: go quit help");
+        System.out.println("Available commands: go, help, quit");
     }
 
     /**
