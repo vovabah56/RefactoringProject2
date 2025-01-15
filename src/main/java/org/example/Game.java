@@ -4,6 +4,7 @@ public class Game {
     Parser parser;
     private Room roomManager;
     GameMediator mediator;
+    boolean finished = false;
 
     /**
      * Создание игры и инициализация карты.
@@ -11,7 +12,7 @@ public class Game {
     public Game() {
         createRooms();
         parser = new Parser();
-        mediator = new GameMediator();
+        mediator = new GameMediator(this, parser);
     }
 
     /**
@@ -43,18 +44,16 @@ public class Game {
     public void play() {
         printWelcome();
 
-        boolean finished = false;
         while (!finished) {
             Command command = parser.getCommand();
-            finished = processCommand(command);
+            mediator.processCommand(command);
         }
-        System.out.println("Thank you for playing. Good bye.");
     }
 
     /**
      * Приветственное сообщение.
      */
-    private void printWelcome() {
+    void printWelcome() {
         System.out.println();
         System.out.println("Welcome to the World of Zuul!");
         System.out.println("Type 'help' if you need help.");
@@ -79,31 +78,7 @@ public class Game {
     /**
      * Обработка команд.
      */
-    boolean processCommand(Command command) {
-        boolean wantToQuit = false;
 
-        if (command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
-            return false;
-        }
-
-        String commandWord = command.getCommandWord();
-        switch (commandWord) {
-            case "help":
-                printHelp();
-                break;
-            case "go":
-                mediator.movePlayerToRoom(command.getSecondWord(), this);  // Используем посредника
-                break;
-            case "quit":
-                wantToQuit = quit(command);
-                break;
-            default:
-                System.out.println("I don't know what you mean...");
-                break;
-        }
-        return wantToQuit;
-    }
 
     /**
      * Печать справки.
@@ -113,17 +88,6 @@ public class Game {
         System.out.println("Your command words are: go quit help");
     }
 
-    /**
-     * Обработка выхода из игры.
-     */
-    boolean quit(Command command) {
-        if (command.hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     /**
      * Получить текущую комнату.
