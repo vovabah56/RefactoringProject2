@@ -2,7 +2,7 @@ package org.example;
 
 public class Game {
     Parser parser;
-    private RoomManager roomManager;
+    private Room roomManager;
     GameMediator mediator;
 
     /**
@@ -34,7 +34,7 @@ public class Game {
         lab.setExits(outside, office, null, null);
         office.setExits(null, null, null, lab);
 
-        roomManager = new RoomManager(outside);
+        roomManager = outside;
     }
 
     /**
@@ -68,7 +68,7 @@ public class Game {
      */
     private void printExits() {
         System.out.print("Exits: ");
-        Room currentRoom =  roomManager.getRoom();
+        Room currentRoom =  roomManager;
         if (currentRoom.northExit != null) System.out.print("north ");
         if (currentRoom.eastExit != null) System.out.print("east ");
         if (currentRoom.southExit != null) System.out.print("south ");
@@ -129,14 +129,14 @@ public class Game {
      * Получить текущую комнату.
      */
     public Room getRoomManager() {
-        return roomManager.getRoom();
+        return roomManager;
     }
 
     /**
      * Установить текущую комнату.
      */
     public void setRoomManager(Room room) {
-        roomManager = new RoomManager(room);
+        roomManager = room;
         System.out.println("You are " + roomManager.getDescription());
         printExits();
     }
